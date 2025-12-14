@@ -33,8 +33,8 @@ RUN apt-get update \
     dolphin \
     kio-extras \
  && rm -rf /var/lib/apt/lists/*
- 
-RUN wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231397c44454c7c31/kesl_12.3.0-1162_arm64.deb
+
+RUN wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231377c44454c7c31/kesl_12.3.0-1162_amd64.deb
 
 # Install Google Chrome (Chromium-based) from official repo
 RUN set -eux; \
