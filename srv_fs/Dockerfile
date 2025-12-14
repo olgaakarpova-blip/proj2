@@ -18,7 +18,6 @@ RUN apt-get update \
     wget \
     acl \
     vim \
-    openrc \
     firewalld \
  && rm -rf /var/lib/apt/lists/*
 
