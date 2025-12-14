@@ -44,17 +44,6 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends google-chrome-stable; \
     rm -rf /var/lib/apt/lists/*
-
-# Install Thunderbird (tarball) to /opt/thunderbird and add launcher
-RUN set -eux; \
-    mkdir -p /opt; \
-    curl -fsSL "https://download.mozilla.org/?product=thunderbird-latest&os=linux64&lang=ru" -o /tmp/thunderbird.tar.xz; \
-    tar -xJf /tmp/thunderbird.tar.xz -C /opt; \
-    ln -sf /opt/thunderbird/thunderbird /usr/local/bin/thunderbird; \
-    rm -f /tmp/thunderbird.tar.xz; \
-    printf '[Desktop Entry]\nType=Application\nName=Thunderbird\nExec=thunderbird\nIcon=thunderbird\nCategories=Network;Email;\nTerminal=false\n' > /usr/share/applications/thunderbird.desktop; \
-    update-desktop-database >/dev/null 2>&1 || true
-
 # Ensure ping is available (install separately to avoid any conflicts)
 RUN apt-get update && apt-get install -y iputils-ping && rm -rf /var/lib/apt/lists/*
 
