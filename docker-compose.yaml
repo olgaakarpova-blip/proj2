@@ -25,6 +25,7 @@ services:
     privileged: true
     cap_add: ["NET_ADMIN"]
     restart: unless-stopped
+    privileged: true
     sysctls:
       net.ipv4.ip_forward: 1
     networks:
@@ -50,6 +51,7 @@ services:
     container_name: srv_dns
     cap_add: ["NET_ADMIN"]
     restart: unless-stopped
+    privileged: true
     networks:
       servers:
         ipv4_address: 192.168.50.70
@@ -73,6 +75,7 @@ services:
     container_name: srv_web
     cap_add: ["NET_ADMIN"]
     restart: unless-stopped
+    privileged: true
     networks:
       servers:
         ipv4_address: 192.168.50.10
@@ -96,6 +99,7 @@ services:
     container_name: srv_fs
     cap_add: ["NET_ADMIN"]
     restart: unless-stopped
+    privileged: true
     # user: root
     networks:
       servers:
@@ -144,6 +148,7 @@ services:
     networks:
       users:
         ipv4_address: 192.168.0.10
+    privileged: true
     environment:
       - GATEWAY_IP=192.168.0.254
       - ADM_HASH=${ADM_HASH}
@@ -163,6 +168,7 @@ services:
     networks:
       users:
         ipv4_address: 192.168.0.20
+    privileged: true
     environment:
       - GATEWAY_IP=192.168.0.254
       - ADM_HASH=${ADM_HASH}
@@ -177,6 +183,7 @@ services:
     depends_on: [ fw, srv_fs]
     build: ./admin
     container_name: admin-go-pc
+    privileged: true
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
