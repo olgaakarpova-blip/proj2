@@ -182,7 +182,6 @@ services:
     depends_on: [ fw, srv_fs]
     build: ./admin
     container_name: admin-go-pc
-    privileged: true
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
