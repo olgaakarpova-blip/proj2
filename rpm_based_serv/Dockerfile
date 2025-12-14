@@ -45,4 +45,4 @@ VOLUME ["/sys/fs/cgroup"]
 
 STOPSIGNAL SIGRTMIN+3
 
-CMD ["/usr/sbin/init"]
+CMD ["/usr/local/bin/entrypoint.sh"]
