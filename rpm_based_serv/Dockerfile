@@ -2,7 +2,6 @@ FROM rockylinux:9
 
 ENV container docker
 
-RUN wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231387c44454c7c31/kesl-12.3.0-1162.x86_64.rpm
 
 # Установка пакетов
 RUN dnf -y update && \
@@ -24,6 +23,8 @@ RUN dnf -y update && \
         selinux-policy-targeted \
         && \
     dnf clean all
+RUN wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231387c44454c7c31/kesl-12.3.0-1162.x86_64.rpm
+
 
 # Создаем группу admins (для su)
 RUN groupadd admins
