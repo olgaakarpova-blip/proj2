@@ -15,6 +15,7 @@ RUN dnf -y update && \
         firewalld \
         iproute \
         procps-ng \
+        wget \
         passwd \
         shadow-utils \
         dbus \
