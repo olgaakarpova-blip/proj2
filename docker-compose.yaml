@@ -120,7 +120,7 @@ services:
     depends_on:
       - fw
     build: ./rpm_based_serv
-    container_name: srv_av
+    container_name: srv_av-firewalld
     cap_add: ["NET_ADMIN"]
     cgroup: host
     privileged: true
