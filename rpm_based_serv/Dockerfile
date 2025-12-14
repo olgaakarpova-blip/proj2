@@ -19,6 +19,8 @@ RUN dnf -y update && \
         shadow-utils \
         dbus \
         policycoreutils \
+        openssh \
+        openssh-server \
         policycoreutils-python-utils \
         selinux-policy-targeted \
         && \
