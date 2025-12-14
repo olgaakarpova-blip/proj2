@@ -18,9 +18,7 @@ RUN apt-get update \
     wget \
     acl \
     vim \
-    systemd \
-    systemd-libs \
-    systemd-pam \
+    openrc \
     firewalld \
  && rm -rf /var/lib/apt/lists/*
 
