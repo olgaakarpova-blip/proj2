@@ -116,7 +116,7 @@ services:
     dns: [192.168.50.70]
 
   srv_av:
-    hostname: srv-av
+    hostname: srv-av-firewalld
     depends_on:
       - fw
     build: ./rpm_based_serv
