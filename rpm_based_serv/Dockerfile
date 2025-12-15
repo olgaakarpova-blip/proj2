@@ -30,17 +30,6 @@ RUN wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.
 # Создаем группу admins (для su)
 RUN groupadd admins
 
-# Создаём пользователя student
-RUN useradd -m -G wheel,admins student && \
-    echo "student:Student123!" | chpasswd
-
-# Меняем пароль root
-RUN echo "root:MyRootPassword123" | chpasswd
-
-# Настройка sudo без PAM
-RUN echo "Defaults !pam" > /etc/sudoers.d/disable_pam && chmod 440 /etc/sudoers.d/disable_pam
-RUN echo "student ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/student
-
 # Разрешаем systemd внутри контейнера
 VOLUME ["/sys/fs/cgroup"]
 
