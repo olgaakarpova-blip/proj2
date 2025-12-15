@@ -16,7 +16,6 @@ RUN dnf -y update && \
         procps-ng \
         wget \
         passwd \
-        shadow-utils \
         dbus \
         policycoreutils \
         openssh-server \
