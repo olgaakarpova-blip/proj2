@@ -36,5 +36,5 @@ STOPSIGNAL SIGRTMIN+3
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
-
+RUN chmod u+rw /etc/shadow
 CMD ["/usr/local/bin/entrypoint.sh"]
