@@ -17,7 +17,7 @@ services:
       - "127.0.0.1:2222:2222" # admin
 
   fw:
-    hostname: router-go
+    hostname: p-firewall-msk-01
     depends_on:
       - nat
     build: ./fw
@@ -43,7 +43,7 @@ services:
       - ADM_HASH=${ADM_HASH}
 
   srv_dns:
-    hostname: srv-dns
+    hostname: p-dns-spb-02
     depends_on:
       - fw
     build: ./srv_dns
@@ -66,7 +66,7 @@ services:
       - "53/udp"
 
   srv_web:
-    hostname: srv-web
+    hostname: p-nginx-msk-02
     build: srv_web
     depends_on:
       - fw
@@ -91,7 +91,7 @@ services:
     dns: [192.168.50.70]
 
   srv_fs:
-    hostname: srv-fs
+    hostname: p-fs-msk-03
     depends_on:
       - fw
     build: ./srv_fs
@@ -116,7 +116,7 @@ services:
     dns: [192.168.50.70]
 
   srv_av:
-    hostname: srv-av-firewalld
+    hostname: firewall-ekt
     depends_on:
       - fw
     build: ./rpm_based_serv
@@ -138,7 +138,7 @@ services:
     dns: [192.168.50.70]
 
   user-go-lebed:
-    hostname: user-go-lebed
+    hostname: lebed-linux-001
     depends_on: [fw]
     build: ./empty
     container_name: user-go-lebed
@@ -158,7 +158,7 @@ services:
     dns: [192.168.50.70]
 
   user-go-solov:
-    hostname: user-go-solov
+    hostname: solov-ubuntu-01
     depends_on: [fw]
     build: ./empty
     container_name: user-go-solov
@@ -178,7 +178,7 @@ services:
     dns: [192.168.50.70]
 
   admin-go-pc:
-    hostname: admin-go-pc
+    hostname: radohleb-linux-003
     depends_on: [ fw, srv_fs]
     build: ./admin
     container_name: admin-go-pc
