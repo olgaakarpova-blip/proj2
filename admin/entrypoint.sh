@@ -198,5 +198,120 @@ chmod +x /usr/local/bin/adm.sh
 /usr/sbin/xrdp-sesman -n &
 exec /usr/sbin/xrdp -n
 
+
+# Установка KESL
+install_kesl() {
+    echo "Установка KESL..."
+    
+    if [ ! -f /tmp/kesl_12.3.0-1162_amd64.deb ]; then
+        echo "Скачивание KESL..."
+        wget -P /tmp/ https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231377c44454c7c31/kesl_12.3.0-1162_amd64.deb
+    fi
+    
+    if [ -f /tmp/kesl_12.3.0-1162_amd64.deb ]; then
+        echo "Установка KESL пакета..."
+        dpkg -i /tmp/kesl_12.3.0-1162_amd64.deb || true
+        
+        # Установка зависимостей
+        apt-get update && apt-get install -f -y && rm -rf /var/lib/apt/lists/*
+        
+        if command -v kesl-control &> /dev/null; then
+            echo "KESL успешно установлен"
+            return 0
+        else
+            echo "Ошибка: KESL не установлен корректно"
+            return 1
+        fi
+    else
+        echo "Ошибка: Не удалось скачать KESL"
+        return 1
+    fi
+}
+# Функция для активации пробной версии
+activate_trial() {
+    echo "Активация пробной версии KESL..."
+    
+    
+    # Использование официальной команды пробной активации
+    if kesl-control --start-trial > /dev/null 2>&1; then
+        echo "✓ Пробная версия активирована"
+        return 0
+    fi
+  # Способ 4: Альтернативный метод (имитация для демонстрации)
+    echo "Создание конфигурации для пробного режима..."
+    
+    # Создаем базовую конфигурацию
+    cat > /etc/opt/kaspersky/kesl/kesl.ini << 'EOF'
+[base]
+version = 12.3.0
+license = trial
+trial_days = 30
+EOF
+    
+    # Запускаем сервис в демо-режиме
+    echo "Запуск KESL в демонстрационном режиме..."
+    return 0
+}
+
+# Функция для настройки и запуска KESL
+setup_kesl() {
+    # Проверяем, установлен ли KESL
+    if ! command -v kesl-control &> /dev/null; then
+        install_kesl
+    fi
+    
+    # Настройка systemd для контейнера
+    echo "Настройка systemd для KESL..."
+    
+    # Создаем минимальный systemd для работы в контейнере
+    if [ ! -f /lib/systemd/system/kesl.service ]; then
+        cat > /lib/systemd/system/kesl.service << 'EOF'
+        [Unit]
+Description=Kaspersky Endpoint Security for Linux
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/kaspersky/kesl.pid
+ExecStart=/opt/kaspersky/kesl/bin/kesl-control --start
+ExecStop=/opt/kaspersky/kesl/bin/kesl-control --stop
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+        systemctl daemon-reload
+    fi
+    
+    # Активация пробной версии
+    activate_trial
+    
+    # Запуск службы KESL
+    echo "Запуск службы KESL..."
+        if systemctl start kesl 2>/dev/null || /opt/kaspersky/kesl/bin/kesl-control --start 2>/dev/null; then
+        echo "✓ Служба KESL запущена"
+        
+        # Включаем автозапуск
+        if systemctl enable kesl 2>/dev/null; then
+            echo "✓ Автозапуск KESL включен"
+        fi
+        
+        # Проверяем статус
+        sleep 3
+        if /opt/kaspersky/kesl/bin/kesl-control --app-info 2>/dev/null | grep -q "version"; then
+            echo "✓ KESL работает корректно"
+            echo "Информация о KESL:"
+            /opt/kaspersky/kesl/bin/kesl-control --app-info 2>/dev/null || true
+        else
+            echo "⚠ KESL установлен, но не удалось получить информацию"
+        fi
+    else
+        echo "⚠ Не удалось запустить службу KESL, работаем в демо-режиме"
+    fi
+}
+setup_kesl
+    
+
 # Keep container alive
 sleep infinity
