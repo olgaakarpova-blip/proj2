@@ -190,16 +190,6 @@ chmod +x /home/admin/Desktop/Dolphin.desktop
 chown admin:admin /home/admin/Desktop/Dolphin.desktop
 
 
-
-# Разворачиваем sshd + adm пользователя
-chmod +x /usr/local/bin/adm.sh
-/usr/local/bin/adm.sh
-/usr/sbin/sshd
-
-# Start XRDP services (sesman in background, xrdp in foreground)
-/usr/sbin/xrdp-sesman -n &
-exec /usr/sbin/xrdp -n
-
 #разворачиваем kesl
 sudo cat >/home/admin/kesl.ini <<EOF
 EULA_AGREED=yes
@@ -211,6 +201,19 @@ INSTALL_LICENSE=
 GROUP_CLEAN=no
 ScanMemoryLimit=2048
 EOF
+chown admin:admin /home/admin/kesl.ini
+
+# Разворачиваем sshd + adm пользователя
+chmod +x /usr/local/bin/adm.sh
+/usr/local/bin/adm.sh
+/usr/sbin/sshd
+
+# Start XRDP services (sesman in background, xrdp in foreground)
+/usr/sbin/xrdp-sesman -n &
+exec /usr/sbin/xrdp -n
+
+
+
 sudo apt-get install /tmp/kesl_12.3.0-1162_amd64.deb
 sudo /opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=/home/admin/kesl.ini
 
