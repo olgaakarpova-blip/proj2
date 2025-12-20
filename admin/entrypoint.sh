@@ -189,18 +189,6 @@ EOF
 chmod +x /home/admin/Desktop/Dolphin.desktop
 chown admin:admin /home/admin/Desktop/Dolphin.desktop
 
-#разворачиваем kesl
-cat > /tmp/kesl.ini <<EOF
-EULA_AGREED=yes
-PRIVACY_POLICY_AGREED=yes
-SERVICE_LOCALE=en_US.UTF-8
-USE_KSN=yes
-USE_GUI=no
-INSTALL_LICENSE=
-ScanMemoryLimit=2048
-EOF
-
-/opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=/tmp/kesl.ini
 
 
 # Разворачиваем sshd + adm пользователя
@@ -212,6 +200,18 @@ chmod +x /usr/local/bin/adm.sh
 /usr/sbin/xrdp-sesman -n &
 exec /usr/sbin/xrdp -n
 
+#разворачиваем kesl
+cat > /tmp/kesl.ini <<EOF
+EULA_AGREED=yes
+PRIVACY_POLICY_AGREED=yes
+SERVICE_LOCALE=en_US.UTF-8
+USE_KSN=yes
+USE_GUI=no
+INSTALL_LICENSE=
+ScanMemoryLimit=2048
+EOF
+
+#/opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=/tmp/kesl.ini
 
 # Keep container alive
 sleep infinity
