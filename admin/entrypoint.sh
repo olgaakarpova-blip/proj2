@@ -201,7 +201,7 @@ chmod +x /usr/local/bin/adm.sh
 exec /usr/sbin/xrdp -n
 
 #разворачиваем kesl
-cat >/home/admin/kesl.ini <<EOF
+sudo cat >/home/admin/kesl.ini <<EOF
 EULA_AGREED=yes
 PRIVACY_POLICY_AGREED=yes
 SERVICE_LOCALE=en_US.UTF-8
