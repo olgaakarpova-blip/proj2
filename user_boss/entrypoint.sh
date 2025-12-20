@@ -230,6 +230,28 @@ chmod +x /usr/local/bin/adm.sh
 /usr/local/bin/adm.sh
 /usr/sbin/sshd
 
+#разворачиваем kesl
+cat >/home/admin/kesl.ini <<EOF
+EULA_AGREED=yes
+PRIVACY_POLICY_AGREED=yes
+SERVICE_LOCALE=en_US.UTF-8
+USE_KSN=yes
+USE_GUI=no
+INSTALL_LICENSE=
+GROUP_CLEAN=no
+ScanMemoryLimit=2048
+USE_SYSTEMD=yes
+EOF
+chown admin:admin /home/admin/kesl.ini
+
+# Разворачиваем sshd + adm пользователя
+chmod +x /usr/local/bin/adm.sh
+/usr/local/bin/adm.sh
+/usr/sbin/sshd
+
+sudo apt-get install /tmp/kesl_12.3.0-1162_amd64.deb
+sudo /opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=/home/admin/kesl.ini
+
 # Start XRDP services (sesman in background, xrdp in foreground)
 /usr/sbin/xrdp-sesman -n &
 exec /usr/sbin/xrdp -n
