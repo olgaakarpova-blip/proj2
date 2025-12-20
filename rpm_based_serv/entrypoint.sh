@@ -6,6 +6,6 @@ ip route add default via "$GATEWAY_IP" || true
 
 chmod +x /usr/local/bin/adm.sh
 /usr/local/bin/adm.sh
-/usr/sbin/sshd
+# /usr/sbin/sshd
 
 exec /usr/sbin/init
