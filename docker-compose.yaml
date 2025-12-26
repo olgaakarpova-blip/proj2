@@ -138,10 +138,10 @@ services:
     dns: [192.168.50.70]
 
   user-go-temper:
-    hostname: temper-linux-001
+    hostname: bukreev-linux-001
     depends_on: [fw]
     build: ./empty
-    container_name: user-go-temper
+    container_name: user-go-bukreev
     cap_add: ["NET_ADMIN"]
     restart: unless-stopped
     networks:
@@ -152,7 +152,7 @@ services:
       - GATEWAY_IP=192.168.0.254
       - ADM_HASH=${ADM_HASH}
       - USER1_HASH=${USER1_HASH}
-      - USERNAME=k.temper
+      - USERNAME=k.bukreev
     volumes:
       - ./adm.sh:/usr/local/bin/adm.sh:rw
     dns: [192.168.50.70]
@@ -178,10 +178,10 @@ services:
     dns: [192.168.50.70]
 
   admin-go-pc:
-    hostname: radohleb-linux-003
+    hostname: petrov-linux-003
     depends_on: [ fw, srv_fs]
     build: ./admin
-    container_name: admin-go-pc
+    container_name: petrov-go-pc
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
